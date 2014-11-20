@@ -42,9 +42,11 @@ def language(request, language='en-gb'):
 @login_required	
 def create(request):
 		if request.POST:
-			form = ArticleForm(request.POST, request.FILES)
+			form = ArticleForm(request.POST, request.FILES, request.user)
 			if form.is_valid():
-				form.save()
+				new_article = form.save(commit=False)
+				new_article.owner = request.user
+				new_article.save()
 				
 				return HttpResponseRedirect('/articles/all')
 		else:
