@@ -12,8 +12,8 @@ def get_upload_file_name(instance, filename):
 
 # Create your models here.
 class Article(models.Model):
-	user = 10
-
+	owner = models.ForeignKey(User)
+	
 	title = models.CharField('Titel', max_length=200)
 	body = models.TextField('Beskrivning')
 	pub_date = models.DateTimeField(default=datetime.date.today)
