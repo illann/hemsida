@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+
+
+{% block content %}
+
+<form action="/articles/create/" method="post" enctype="multipart/form-data">{% csrf_token %}
+<ul>
+
+{{form.as_ul}}
+
+</ul>
+
+ <a class="btn" href="/articles/all">Avbryt</a>
+	
+
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"> 
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script>
+$(document).ready(function() {
+    $('.datepicker').datepicker();
+});
+</script>
+
+<input class="btn" type="submit" name="submit" value="Skapa uppdrag">
+</form>
+
+{% endblock %}
+
+
+
+

@@ -1,0 +1,2 @@
+The static folder is not the folder Django will look into to find static files.
+Django will register these files into a set of files the URL system can link to.
