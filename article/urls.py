@@ -6,7 +6,8 @@ urlpatterns = patterns('',
 	url(r'^all/$', 'article.views.articles'),
 	url(r'^get/(?P<article_id>\d+)/$', 'article.views.article'),
 	url(r'^create/$', 'article.views.create'),
-	url(r'^delete_article/(?P<article_id>\d+)$', 'article.views.delete_article')
+	url(r'^delete_article/(?P<article_id>\d+)$', 'article.views.delete_article'),
+	url(r'^my/$', 'article.views.articles_owner')
 	
 	
 	#url(r'^like/(?P<article_id>\d+)/$', 'article.views.like_article'),

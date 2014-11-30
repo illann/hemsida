@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+
+
+{% block content %}
+
+<form action="/offerter/create/" method="post" enctype="multipart/form-data">{% csrf_token %}
+<ul>
+
+{{form.as_ul}}
+
+</ul>
+
+ <a class="btn" href="/articles/all">Avbryt</a>
+	
+
+<input class="btn" type="submit" name="submit" value="Skapa offert">
+</form>
+
+{% endblock %}
+
+
+
+

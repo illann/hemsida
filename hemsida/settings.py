@@ -42,6 +42,7 @@ INSTALLED_APPS = (
 	#'notification',
 	#'custom_user',
 	'userprofile',
+	'offert',
 )
 
 ######################### AUTH for Custom user ############################

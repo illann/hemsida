@@ -4,13 +4,14 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'hemsida.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+	# Examples:
+	# url(r'^$', 'hemsida.views.home', name='home'),
+	# url(r'^blog/', include('blog.urls')),
 
 	url(r'^admin/', include(admin.site.urls)),
 	(r'^articles/', include('article.urls')),
 	(r'^accounts/', include('userprofile.urls')),
+	(r'^offerter/', include('offert.urls')),
 	    
 	
 	# user auth urls

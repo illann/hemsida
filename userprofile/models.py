@@ -17,10 +17,10 @@ class UserProfile(models.Model):
 	stad = models.CharField(max_length=50, blank=True)
 	postnr = models.CharField(max_length=50, blank=True)
 
-	"""
-    # Override the __unicode__() method to return out something meaningful!
+	
+
 	def __unicode__(self):
 		return self.user.username
-	"""
+	
 	
 	User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

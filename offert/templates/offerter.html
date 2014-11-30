@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+
+
+
+{% block content %}
+
+{% if offert.count > 0 %}
+
+{% for offert in offerter %}
+<div>
+<h3><a href="/offerter/get/{{ offert.id }}/">{{ offert.price }}</a></h3>
+</div>
+{% endfor %}
+
+{% else %}
+
+<p>None to show!</p>
+
+{% endif %}
+
+{% endblock %}

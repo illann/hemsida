@@ -48,7 +48,7 @@ def create(request):
 				new_article.owner = request.user
 				new_article.save()
 				
-				return HttpResponseRedirect('/articles/all')
+				return HttpResponseRedirect('/articles/my')
 		else:
 			form = ArticleForm()
 			
@@ -65,7 +65,18 @@ def delete_article(request, article_id):
     #article_id = c.article.id
     #c.delete()
     
-    return HttpResponseRedirect('/articles/all')		
+    return HttpResponseRedirect('/articles/all')
+
+
+@login_required
+def articles_owner(request):
+	args = {}
+	args.update(csrf(request))
+
+	args['articles'] = Article.objects.filter(owner=request.user)
+	# filter articles based on owner
+	
+	return render_to_response('articles_owner.html', args)	
 		
 		
 """
