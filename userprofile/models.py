@@ -9,13 +9,13 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User)
 
     # The additional attributes we wish to include.
-	foretag = models.CharField(max_length=50, blank=True)
-	orgnr = models.CharField(max_length=50, blank=True)
+	foretag = models.CharField('Foretag', max_length=50, blank=True)
+	orgnr = models.CharField('Organisationsnummer', max_length=50, blank=True)
 	foretagsbeskrivning = models.TextField(blank=True)
 	is_buyer = models.BooleanField(default=True)
-	address = models.CharField(max_length=50, blank=True)
+	address = models.CharField('Adress', max_length=50, blank=True)
 	stad = models.CharField(max_length=50, blank=True)
-	postnr = models.CharField(max_length=50, blank=True)
+	postnr = models.CharField('Postnummer', max_length=50, blank=True)
 
 	
 

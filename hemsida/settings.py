@@ -31,18 +31,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'article',
-    'south',
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
+	'article',
+	'south',
 	#'notification',
 	#'custom_user',
 	'userprofile',
 	'offert',
+	'crispy_forms',
 )
 
 ######################### AUTH for Custom user ############################
@@ -130,3 +131,4 @@ TEMPLATE_CONTEXT_PROCESSORS = {
     'django.contrib.messages.context_processors.messages',
 }
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
