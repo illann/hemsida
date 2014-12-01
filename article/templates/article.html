@@ -14,9 +14,19 @@
 <p>Upplagd av: {{ article.owner}}</p>
 <p></p>
 <a href="/articles/delete_article/{{article.id}}">Ta bort</a>
-<a href="/offerter/create/">Lägg offert</a>
+<a href="/articles/add_offert/{{article.id}}">Lägg offert</a>
 
 
 </div>
 
+<!--
+<h2>Offerts</h2>
+{% for c in article.offert_set.all %}
+<p>{{ c.price }} 
+
+</p>
+{% endfor %}
+
+<p><a href="/articles/add_offert/{{article.id}}">Skapa offert</a></p>
+-->
 {% endblock %}

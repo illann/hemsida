@@ -42,7 +42,7 @@ INSTALLED_APPS = (
 	#'notification',
 	#'custom_user',
 	'userprofile',
-	'offert',
+	#'offert',
 	'crispy_forms',
 )
 

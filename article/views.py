@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, render
-from article.models import Article
+from article.models import Article, Offert
 from django.http import HttpResponse
-from forms import ArticleForm
+from forms import ArticleForm, OffertForm
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
@@ -76,9 +76,35 @@ def articles_owner(request):
 	args['articles'] = Article.objects.filter(owner=request.user)
 	# filter articles based on owner
 	
-	return render_to_response('articles_owner.html', args)	
-		
-		
+	return render_to_response('articles_owner.html', args)
+	
+	
+def add_offert(request, article_id):
+    a = Article.objects.get(id=article_id)
+    
+    if request.method == "POST":
+        f = OffertForm(request.POST)
+        if f.is_valid():
+            c = f.save(commit=False)
+            c.owner = request.user
+            c.article_owner = a
+            c.save()
+            
+            
+            return HttpResponseRedirect('/articles/get/%s' % article_id)
+        
+    else:
+        f = OffertForm()
+
+    args = {}
+    args.update(csrf(request))
+    
+    args['article'] = a
+    args['form'] = f
+    
+    return render_to_response('add_offert.html', args)	
+	
+	
 """
 		
 def delete_article(request, new_id):

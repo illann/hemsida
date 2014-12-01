@@ -1,5 +1,5 @@
 from django import forms
-from models import Article
+from models import Article, Offert
 from django.forms.fields import DateField
 from article.models import Article
 #from functools import partial
@@ -21,3 +21,10 @@ class DeleteNewForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = []
+
+class OffertForm(forms.ModelForm):
+
+	class Meta:
+		model = Offert
+		fields = ('body', 'price')
+

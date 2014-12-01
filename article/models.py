@@ -21,7 +21,6 @@ class Article(models.Model):
 	kvalitetskrav = models.CharField('Kvalitetskrav', max_length=100)
 	material = models.CharField('Material', max_length=100)
 	#kategori = models.CharField('Material', max_length=100)
-	#created_by = models.OneToOneField(User)
 
 	#likes = models.IntegerField(default=0)
 	#thumbnail = models.FileField(upload_to=get_upload_file_name)
@@ -30,8 +29,15 @@ class Article(models.Model):
 		
 	def __unicode__(self):
 		return self.title
+		
+class Offert(models.Model):
+	owner = models.ForeignKey(User)
+	article_owner = models.ForeignKey(Article)
+	body = models.TextField('Comment', blank=True)
+	price = models.PositiveIntegerField('Price')
+	
 
-"""		
+		
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
 	user = models.OneToOneField(User)
