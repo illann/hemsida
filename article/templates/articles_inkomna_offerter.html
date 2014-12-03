@@ -8,7 +8,7 @@
 {% for article in articles %}
 
 <div>
-<h3><a href="/articles/get/{{ article.id }}/">{{ article.title }}</a></h3>
+<h3><a href="/articles/get_article_offert/{{ article.id }}/">{{ article.title }}</a></h3>
 <p>{{ article.body|lower|truncatewords:"30" }}</p>
 </div>
 {% endfor %}

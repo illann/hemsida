@@ -21,6 +21,8 @@ class Article(models.Model):
 	kvalitetskrav = models.CharField('Kvalitetskrav', max_length=100)
 	material = models.CharField('Material', max_length=100)
 	#kategori = models.CharField('Material', max_length=100)
+	state = models.IntegerField(default=1)
+	
 
 	#likes = models.IntegerField(default=0)
 	#thumbnail = models.FileField(upload_to=get_upload_file_name)
@@ -37,7 +39,7 @@ class Offert(models.Model):
 	price = models.PositiveIntegerField('Price')
 	
 
-		
+"""		
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
 	user = models.OneToOneField(User)

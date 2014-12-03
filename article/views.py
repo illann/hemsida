@@ -73,10 +73,23 @@ def articles_owner(request):
 	args = {}
 	args.update(csrf(request))
 
-	args['articles'] = Article.objects.filter(owner=request.user)
+	args['articles'] = Article.objects.filter(owner=request.user, state=1)
 	# filter articles based on owner
+	#args['articles_state'] = Article.objects.filter(state=1)
 	
 	return render_to_response('articles_owner.html', args)
+	
+def articles_inkomna_offerter(request):
+	args = {}
+	args.update(csrf(request))
+
+	args['articles'] = Article.objects.filter(owner=request.user, state=2)
+	
+	return render_to_response('articles_inkomna_offerter.html', args)
+	
+def article_med_offert(request, article_id=1):
+    return render(request, 'article_inkommen_offert.html', 
+                  {'article': Article.objects.get(id=article_id) })
 	
 	
 def add_offert(request, article_id):
@@ -88,10 +101,11 @@ def add_offert(request, article_id):
             c = f.save(commit=False)
             c.owner = request.user
             c.article_owner = a
+            a.state = 2
             c.save()
-            
-            
-            return HttpResponseRedirect('/articles/get/%s' % article_id)
+            a.save()
+                     
+            return HttpResponseRedirect('/articles/get_article_offert/%s' % article_id)
         
     else:
         f = OffertForm()
