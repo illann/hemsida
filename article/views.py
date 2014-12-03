@@ -118,7 +118,35 @@ def articles_godkanda_offerter(request):
 def article_med_godkand_offert(request, article_id=1):
     return render(request, 'article_godkand_offert.html', 
                   {'article': Article.objects.get(id=article_id) })
+				  
+				  
 	
+@login_required	
+def avsluta_uppdrag(request, article_id):
+	if article_id:
+		a = Article.objects.get(id=article_id)
+		a.state = 4
+		a.save()
+		
+	return HttpResponseRedirect('/articles/avslutade_uppdrag')
+				  
+				  
+@login_required	
+def articles_avslutade_uppdrag(request):
+	args = {}
+	args.update(csrf(request))
+
+	args['articles'] = Article.objects.filter(owner=request.user, state=4)
+	
+	return render_to_response('articles_avslutade.html', args)
+	
+	
+@login_required	
+def article_avslutat_uppdrag(request, article_id=1):
+    return render(request, 'article_avslutad.html', 
+                  {'article': Article.objects.get(id=article_id) })	
+				  
+				  
 
 @login_required	
 def add_offert(request, article_id):
