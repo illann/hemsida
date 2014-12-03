@@ -11,7 +11,10 @@ urlpatterns = patterns('',
 	url(r'^inkomna_offerter/$', 'article.views.articles_inkomna_offerter'),
 	#url(r'^add_comment/(?P<article_id>\d+)/$', 'article.views.add_comment')
 	url(r'^add_offert/(?P<article_id>\d+)/$', 'article.views.add_offert'),
-	url(r'^get_article_offert/(?P<article_id>\d+)/$', 'article.views.article_med_offert')
+	url(r'^get_article_offert/(?P<article_id>\d+)/$', 'article.views.article_med_offert'),
+	url(r'^godkanda_offerter/$', 'article.views.articles_godkanda_offerter'),
+	url(r'^godkann_offert/(?P<article_id>\d+)/$', 'article.views.godkann_offert'),
+	url(r'^get_article_godkand/(?P<article_id>\d+)/$', 'article.views.article_med_godkand_offert')
 	
 	
 	#url(r'^like/(?P<article_id>\d+)/$', 'article.views.like_article'),

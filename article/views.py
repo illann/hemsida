@@ -78,7 +78,8 @@ def articles_owner(request):
 	#args['articles_state'] = Article.objects.filter(state=1)
 	
 	return render_to_response('articles_owner.html', args)
-	
+
+@login_required	
 def articles_inkomna_offerter(request):
 	args = {}
 	args.update(csrf(request))
@@ -86,12 +87,40 @@ def articles_inkomna_offerter(request):
 	args['articles'] = Article.objects.filter(owner=request.user, state=2)
 	
 	return render_to_response('articles_inkomna_offerter.html', args)
-	
+
+@login_required	
 def article_med_offert(request, article_id=1):
     return render(request, 'article_inkommen_offert.html', 
                   {'article': Article.objects.get(id=article_id) })
+				  
+				  
+@login_required	
+def godkann_offert(request, article_id):
+	if article_id:
+		a = Article.objects.get(id=article_id)
+		a.state = 3
+		a.save()
+		
+	return HttpResponseRedirect('/articles/godkanda_offerter')
+				  
+				  
+@login_required	
+def articles_godkanda_offerter(request):
+	args = {}
+	args.update(csrf(request))
+
+	args['articles'] = Article.objects.filter(owner=request.user, state=3)
+	
+	return render_to_response('articles_godkanda.html', args)
 	
 	
+@login_required	
+def article_med_godkand_offert(request, article_id=1):
+    return render(request, 'article_godkand_offert.html', 
+                  {'article': Article.objects.get(id=article_id) })
+	
+
+@login_required	
 def add_offert(request, article_id):
     a = Article.objects.get(id=article_id)
     
