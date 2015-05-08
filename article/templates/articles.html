@@ -5,19 +5,51 @@
 
 {% block content%}
 
-{% if articles.count > 0 %}
+    <div class="heading">
+        <h1>All requests</h1>
+    </div>
+	
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
 
-{% for article in articles %}
-<div>
-<h3><a href="/articles/get/{{ article.id }}/">{{ article.title }}</a></h3>
-<p>{{ article.body|lower|truncatewords:"30" }}</p>
-</div>
+                <div class="panel panel-default">
+                    <div class="panel-body"> 
+
+
+					
+					
+
+
+
+	
+	
+<table class="table">
+
+                            <thead>
+                            <th>Request  </th>
+                            <th>Last date for quotations </th>
+                            <th>Delivery date </th>
+                            <th>Current price range </th>
+                            </thead>
+{% for article in articles reversed %}                            
+							
+							<tbody>
+							
+                            <tr class="warning">
+                                <td><b><a href="/articles/get/{{ article.id }}/">{{ article.title }}</a></b></td>
+                                <td>20{{ article.q_date|date:"y-m-d" }}</td>
+                                <td>{{ article.del_date }}</td>
+								
+								{% if article.intervall == '0' %}
+								<td> No current quotation </td>
+								{% else %}
+								<td> {{ article.intervall }} &euro;</td>
+								{% endif %}
+								<td></td>
+                            </tr>
+
+                            </tbody>
 {% endfor %}
-
-{% else %}
-
-<p>None to show!</p>
-
-{% endif %}
-
+                        </table>
+						
 {% endblock %}

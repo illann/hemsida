@@ -1,15 +1,12 @@
 from django.shortcuts import render_to_response, render
 from article.models import Article, Offert
-from django.http import HttpResponse
 from forms import ArticleForm, OffertForm
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
-#from django.shortcuts import render, get_object_or_404
+from random import randint
+from datetime import date
 
-#from .forms import DeleteNewForm
-from django.template import RequestContext
-#from django.contrib import messages
 
 
 # Create your views here.
@@ -19,25 +16,30 @@ def articles(request):
 
 	args = {}
 	args.update(csrf(request))
-
-	args['articles'] = Article.objects.all()	
+	
+	use=request.user.profile
+	wanted_items = list()
+	for e in Article.objects.all():
+		if date.today()>e.q_date:
+			e.state = 0
+			e.save()
+	
+		kat=e.kategori
+		if e.state==1 and getattr(use,kat):
+			wanted_items.append(e)
+	args['articles'] = wanted_items
 	return render_to_response('articles.html', args)
+	
 
 @login_required
 def article(request, article_id=1):
-    return render(request, 'article.html', 
-                  {'article': Article.objects.get(id=article_id) })
+		e = Article.objects.get(id=article_id)
+		if date.today()>e.q_date:
+			e.state = 0
+			e.save()
+		return render(request, 'article.html', 
+                  {'article': e })
 
-"""							 
-def language(request, language='en-gb'):
-	response = HttpResponse("setting language to %s" % language)
-	
-	response.set_cookie('lang', language)
-	
-	request.session['lang'] = language 
-	
-	return response
-"""	
 	
 @login_required	
 def create(request):
@@ -46,8 +48,9 @@ def create(request):
 			if form.is_valid():
 				new_article = form.save(commit=False)
 				new_article.owner = request.user
+
 				new_article.save()
-				
+
 				return HttpResponseRedirect('/articles/my')
 		else:
 			form = ArticleForm()
@@ -58,159 +61,81 @@ def create(request):
 		args['form'] = form
 		
 		return render_to_response('create_article.html', args)
-		
-@login_required	
-def delete_article(request, article_id):
-    c = Article.objects.get(id=article_id).delete()
-    #article_id = c.article.id
-    #c.delete()
-    
-    return HttpResponseRedirect('/articles/all')
-
-
-@login_required
-def articles_owner(request):
-	args = {}
-	args.update(csrf(request))
-
-	args['articles'] = Article.objects.filter(owner=request.user, state=1)
-	# filter articles based on owner
-	#args['articles_state'] = Article.objects.filter(state=1)
-	
-	return render_to_response('articles_owner.html', args)
-
-@login_required	
-def articles_inkomna_offerter(request):
-	args = {}
-	args.update(csrf(request))
-
-	args['articles'] = Article.objects.filter(owner=request.user, state=2)
-	
-	return render_to_response('articles_inkomna_offerter.html', args)
-
-@login_required	
-def article_med_offert(request, article_id=1):
-    return render(request, 'article_inkommen_offert.html', 
-                  {'article': Article.objects.get(id=article_id) })
-				  
-				  
-@login_required	
-def godkann_offert(request, article_id):
-	if article_id:
-		a = Article.objects.get(id=article_id)
-		a.state = 3
-		a.save()
-		
-	return HttpResponseRedirect('/articles/godkanda_offerter')
-				  
-				  
-@login_required	
-def articles_godkanda_offerter(request):
-	args = {}
-	args.update(csrf(request))
-
-	args['articles'] = Article.objects.filter(owner=request.user, state=3)
-	
-	return render_to_response('articles_godkanda.html', args)
-	
-	
-@login_required	
-def article_med_godkand_offert(request, article_id=1):
-    return render(request, 'article_godkand_offert.html', 
-                  {'article': Article.objects.get(id=article_id) })
-				  
-				  
-	
-@login_required	
-def avsluta_uppdrag(request, article_id):
-	if article_id:
-		a = Article.objects.get(id=article_id)
-		a.state = 4
-		a.save()
-		
-	return HttpResponseRedirect('/articles/avslutade_uppdrag')
-				  
-				  
-@login_required	
-def articles_avslutade_uppdrag(request):
-	args = {}
-	args.update(csrf(request))
-
-	args['articles'] = Article.objects.filter(owner=request.user, state=4)
-	
-	return render_to_response('articles_avslutade.html', args)
-	
-	
-@login_required	
-def article_avslutat_uppdrag(request, article_id=1):
-    return render(request, 'article_avslutad.html', 
-                  {'article': Article.objects.get(id=article_id) })	
-				  
-				  
+					  				  
 
 @login_required	
 def add_offert(request, article_id):
-    a = Article.objects.get(id=article_id)
-    
-    if request.method == "POST":
-        f = OffertForm(request.POST)
-        if f.is_valid():
-            c = f.save(commit=False)
-            c.owner = request.user
-            c.article_owner = a
-            a.state = 2
-            c.save()
-            a.save()
-                     
-            return HttpResponseRedirect('/articles/get_article_offert/%s' % article_id)
-        
-    else:
-        f = OffertForm()
-
-    args = {}
-    args.update(csrf(request))
-    
-    args['article'] = a
-    args['form'] = f
-    
-    return render_to_response('add_offert.html', args)	
-	
-	
-"""
-		
-def delete_article(request, new_id):
-    new_to_delete = get_object_or_404(Article, id=new_id)
-    #+some code to check if this object belongs to the logged in user
-
-    if request.method == 'POST':
-        form = DeleteNewForm(request.POST, instance=new_to_delete)
-        if form.is_valid(): # checks CSRF
-            new_to_delete.delete()
-			
-            return HttpResponseRedirect("'/articles/all'") # wherever to go after deleting
-
-    else:
-        form = DeleteNewForm(instance=new_to_delete)
-
-    template_vars = {'form': form}
-    return render(request, 'delete_article.html', template_vars)		
-		
-"""
-
-"""		
-def	like_article(request, article_id):
-	if article_id:
-		a = Article.objects.get(id=article_id)
-		count = a.likes
-		count += 1
-		a.likes = count
+	a = Article.objects.get(id=article_id)
+	if date.today()>a.q_date:
+		a.state = 0
 		a.save()
-		
-	return HttpResponseRedirect('/articles/get/%s' % article_id)
-
-def search_titles(request):
-    articles = SearchQuerySet().autocomplete(content_auto=request.POST.get('search_text', ''))            
+	if a.state==1:
     
-    return render_to_response('ajax_search.html', {'articles' : articles})
+		if request.method == "POST":
+			form = OffertForm(request.POST)
+			if form.is_valid():
+				c = form.save(commit=False)
+				c.owner = request.user
+				c.article_owner = a
+				if a.Lowprice == 0:
+					a.int1 = randint(5,6) * 200
+					a.int2 = randint(4,5) * 500
+					a.int3 = randint(4,5) * 1000
+					a.int4 = randint(4,5) * 2000
+					a.int5 = randint(8,9) * 2000
+					a.int6 = randint(5,6) * 5000
+					a.int7 = randint(8,9) * 5000
+					a.int8 = randint(12,13) * 5000
+					a.int9 = randint(15,16) * 5000
+					
+				if c.price<a.Lowprice or a.Lowprice==0:
+					a.Lowprice=c.price
+					if a.Lowprice<a.int1:
+						a.intervall='0-'+ str(a.int1)
+					elif a.Lowprice<a.int2:
+						a.intervall= str(a.int1) + '-'+ str(a.int2)
+					elif a.Lowprice<a.int3:
+						a.intervall= str(a.int2) + '-'+ str(a.int3)
+					elif a.Lowprice<a.int4:
+						a.intervall= str(a.int3) + '-'+ str(a.int4)
+					elif a.Lowprice<a.int5:
+						a.intervall= str(a.int4) + '-'+ str(a.int5)
+					elif a.Lowprice<a.int6:
+						a.intervall= str(a.int5) + '-'+ str(a.int6)
+					elif a.Lowprice<a.int7:
+						a.intervall= str(a.int6) + '-'+ str(a.int7)
+					elif a.Lowprice<a.int8:
+						a.intervall= str(a.int7) + '-'+ str(a.int8)
+					elif a.Lowprice<a.int9:
+						a.intervall= str(a.int8) + '-'+ str(a.int9)
+					elif a.Lowprice<100000:
+						a.intervall= str(a.int9) + '- 100000'
+					else:
+						a.intervall= '100000+'
+				a.quotation_amount = a.quotation_amount + 1
+				c.save()
+				a.save()
+                     
+				return HttpResponseRedirect('/articles/get/%s' % article_id)
+        
+		else:
+			form = OffertForm()
 
-"""
+		args = {}
+		args.update(csrf(request))
+    
+		args['article'] = a
+		args['form'] = form
+    
+		return render_to_response('add_offert.html', args)	
+	
+@login_required
+def offerter_owner(request):
+	args = {}
+	args.update(csrf(request))
+
+
+	args['offerter'] = Offert.objects.filter(owner=request.user)
+	
+	return render_to_response('offerter_owner.html', args)
+	

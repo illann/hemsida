@@ -1,22 +1,28 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-
-{% block sidebar %}
-<ul>
-    <li><a href="/articles/get/{{article.id}}">Cancel</a></li>
-</ul>
-{% endblock %}
-
 {% block content %}
 
-<form action="/articles/add_offert/{{article.id}}/" method="post">{% csrf_token %}
-<ul>
-{{form|crispy}}
-</ul>
 
-<input type="submit" name="submit" value="Skapa offert">
-</form>
+    <div class="heading">
+        <h1>{{ article.title }} <a href="/articles/all"><button class="btn btn-default pull-right" type="submit"><i class="glyphicon glyphicon-chevron-left"></i> Back to all requests</button></a></h1>
+    </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+
+					<form action="/articles/add_offert/{{article.id}}/" method="post">{% csrf_token %}
+						<ul>
+						{{form|crispy}}
+						</ul>
+
+						<button class="btn btn-default" style="margin-right:10px;" type="submit"><i class="glyphicon glyphicon-send" ></i>          Send</button></a>
+
+					</form>
 
 {% endblock %}
 

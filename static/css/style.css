@@ -1,0 +1,96 @@
+html,body{
+	padding:0;
+	margin:0;
+	height:100%;
+	font-family: "Source sans pro", Tahoma, Arial, Sans-serif;
+	background-color:#f5f7fa;
+}
+
+.wrapper{
+	position: relative;
+	width: 100%;
+	height: auto;
+	min-height: 100%;
+	overflow-x: hidden;
+}
+
+.topbar{
+    width:100%;
+}
+
+.wrapper .aside{
+    position:absolute;
+    font-size:13px;
+    left:0;
+    background-color:#ffffff;
+    border-right:1px solid #ccc;
+    min-height:100%;
+    color:#919da8;
+}
+
+.wrapper-content {
+    padding:0px 20px;
+}
+
+.wrapper .aside .nav > li{
+    padding:12px 15px;
+}
+
+.active-ul {
+    color:#222222;
+    background-color:#f5f7fa;
+    border-left:3px solid #00A0EB;
+}
+
+.wrapper-content .heading {
+    background-color:#fafbfc;
+    margin: 0px -10px 10px;
+    padding:20px;
+    font-weight:400;
+    line-height:20px;
+    border-bottom:1px solid #ccc;
+    color:#929292;;
+}
+
+.wrapper-content .heading h1 {
+    font-size:24px;
+    font-weight:400;
+    line-height:18px;
+}
+
+.no-padding {
+    padding:0px !important;
+}
+
+.padding20 {
+    padding:20px !important;
+}
+
+.mecotiv-blue {
+    color: #0090D4 !important;
+}
+
+.blue-bottom-border {
+    border-bottom: 1px solid #00A0EB !important;
+}
+
+.padding-bottom-10 {
+    padding-bottom: 10px !important;
+}
+
+/*-------------------------------------------------------------
+-------------------- Login formuläret -------------------------
+--------------------------------------------------------------*/
+.templatemo-signin-form {
+    padding-top: 50px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.form-horizontal .form-group {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+
+.morris-hover{position:absolute;z-index:1000}.morris-hover.morris-default-style{border-radius:10px;padding:6px;color:#666;background:rgba(255,255,255,0.8);border:solid 2px rgba(230,230,230,0.8);font-family:sans-serif;font-size:12px;text-align:center}.morris-hover.morris-default-style .morris-hover-row-label{font-weight:bold;margin:0.25em 0}
+.morris-hover.morris-default-style .morris-hover-point{white-space:nowrap;margin:0.1em 0}

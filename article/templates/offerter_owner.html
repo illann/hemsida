@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+
+
+
+{% block content%}
+
+    <div class="heading">
+        <h1>My quotations</h1>
+    </div>
+	
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+
+                <div class="panel panel-default">
+                    <div class="panel-body"> 
+
+
+					
+					
+
+
+
+	
+	
+<table class="table">
+
+                            <thead>
+                            <th>Request  </th>
+                            <th>Price </th>
+							<th>Last date for quotations </th>
+							<th>Delivery date </th>
+
+                            </thead>
+{% for offert in offerter reversed %}                            
+							
+							<tbody>
+							
+							
+                            <tr class="warning">
+							
+                                <td> <b><a href="/articles/get/{{ offert.article_owner.id }}/">{{ offert.article_owner }}</a></b> </td>
+								
+								<td> {{ offert.price }} &euro; </td>
+								<td> 20{{ offert.article_owner.q_date|date:"y-m-d" }} </td>
+								<td> {{ offert.article_owner.del_date }} </td>
+
+                            </tr>
+
+                            </tbody>
+{% endfor %}
+                        </table>
+						
+{% endblock %}

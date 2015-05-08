@@ -110,6 +110,9 @@ STATICFILES_FINDERS = (
      'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'static/')
+
+ 
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),
 				'/Django/hemsida/article/templates',)
@@ -132,3 +135,13 @@ TEMPLATE_CONTEXT_PROCESSORS = {
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mecotivab@gmail.com'
+EMAIL_HOST_PASSWORD = 'mecotivgbg'
+ 
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER

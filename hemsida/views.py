@@ -5,6 +5,12 @@ from django.core.context_processors import csrf
 #from forms import MyRegistrationForm
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.forms import AdminPasswordChangeForm
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.csrf import csrf_protect
+from django.core.urlresolvers import reverse
+from django.template.response import TemplateResponse
+
 
 #EP. 9 users login and logout
 def login(request):
@@ -27,7 +33,7 @@ def auth_view(request):
     
 @login_required	
 def profile(request):
-	return render_to_response('profile.html', 
+	return render_to_response('loggedin.html', 
 							{'full_name': request.user.username})
 @login_required
 def invalid_login(request):
@@ -35,28 +41,51 @@ def invalid_login(request):
 
 @login_required	
 def logout(request):
-    auth.logout(request)
-    return render_to_response('logout.html')
+	auth.logout(request)
+	c = {}
+	c.update(csrf(request)) 
+	return render_to_response('login.html', c)
+	
+@login_required	
+def contact(request):
+	return render_to_response('contact.html')
 	
 	
-	
-"""	
-#EP. 10 user registration basics	
-def register_user(request):
-    if request.method == 'POST':
-        form = MyRegistrationForm(request.POST)
+@sensitive_post_parameters()
+@csrf_protect
+@login_required
+def password_change(request,
+                    template_name='change_password.html',
+                    post_change_redirect=None,
+                    password_change_form=AdminPasswordChangeForm,
+                    current_app=None, extra_context=None):
+    if post_change_redirect is None:
+        post_change_redirect = reverse('profile')
+    else:
+        post_change_redirect = resolve_url(post_change_redirect)
+    if request.method == "POST":
+        form = password_change_form(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/accounts/register_success')
-        
-    args = {}
-    args.update(csrf(request))
-    
-    args['form'] = MyRegistrationForm()
-    
-    return render_to_response('register.html', args)
+            return HttpResponseRedirect(post_change_redirect)
+    else:
+        form = password_change_form(user=request.user)
+    context = {
+        'form': form,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+    return TemplateResponse(request, template_name, context,
+                            current_app=current_app)
 	
-def register_success(request):
-    return render_to_response('register_success.html')
-
-"""
+@login_required
+def password_change_done(request,
+                         template_name='password_change_done.html',
+                         current_app=None, extra_context=None):
+    context = {}
+    if extra_context is not None:
+        context.update(extra_context)
+    return TemplateResponse(request, template_name, context,
+                            current_app=current_app)
+	
+	

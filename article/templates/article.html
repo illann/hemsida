@@ -1,34 +1,64 @@
 {% extends "base.html" %}
 
-
-
 {% block content%}
-<div class="hero-unit">
-
-<h2>{{ article.title }}</h2>
-<p>{{ article.body }}</p>
-<p>Kvalitetskrav: {{ article.kvalitetskrav }}</p>
-<p>Material: {{ article.material }}</p>
-<p>Leveransdatum: {{ article.del_date }}</p>
-<p>Skapad: {{ article.pub_date}}</p>
-<p>Upplagd av: {{ article.owner}}</p>
-<p></p>
-<a href="/articles/delete_article/{{article.id}}">Ta bort</a>
-<a href="/articles/add_offert/{{article.id}}">Lägg offert</a>
 
 
-</div>
 
-<!--
-<h2>Offerts</h2>
-{% for c in article.offert_set.all %}
-<p>{{ c.price }} 
+        <div class="heading">
+            <h1>{{ article.title }} <a href="/articles/all"><button class="btn btn-default pull-right" type="submit"><i class="glyphicon glyphicon-chevron-left"></i> Back to all requests</button></a></h1>
+        </div>
 
-</p>
-{% endfor %}
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
 
-<p><a href="/articles/add_offert/{{article.id}}">Skapa offert</a></p>
--->
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                    <h4 class="mecotiv-blue blue-bottom-border padding-bottom-10">Description </h4>
+                    <p>{{ article.body|linebreaks }}</p>
 
-<a class="btn" href="/articles/avsluta_uppdrag/{{article.id}}">Avsluta uppdraget</a>
+                    <h4 class="mecotiv-blue blue-bottom-border padding-bottom-10">Category</h4>
+                    <b>{{ article.kategori }}</b>
+					
+					{% if article.del_date != '' %}
+                    <h4 class="mecotiv-blue blue-bottom-border padding-bottom-10">Delivery date </h4>
+                    <b>{{ article.del_date }}</b>
+					{% endif %}
+					
+                    <h4 class="mecotiv-blue blue-bottom-border padding-bottom-10">Last day for offers</h4>
+                    <b>20{{ article.q_date|date:"y-m-d" }}</b>
+					
+					{% if article.filer %}
+					<h4 class="mecotiv-blue blue-bottom-border padding-bottom-10">Files</h4>
+                    <p><a href="{{article.filer.url}}"/>{{article.filer.url}}</p>
+					{% else %}
+					<p></p>
+					{% endif %}
+					
+
+					<br>
+					
+                    <h4 class="mecotiv-blue blue-bottom-border padding-bottom-10">Current price range</h4>
+					
+					{% if article.intervall == '0' %}
+					<p> No current quotation </p>
+					{% else %}
+					<p> {{ article.intervall }} €</p>
+					{% endif %}
+
+					{% if article.state == 1 %}
+					<br>
+					<br>
+					<a href="/articles/add_offert/{{article.id}}"><button class="btn btn-success" style="margin-right:10px;" type="submit"><i class="glyphicon glyphicon-share-alt"></i>   Respond request</button></a>
+					<br>
+					{% endif %}
+					
+					
+
+
+                </div>
+            </div>
+
+        </div>
+
+
 {% endblock %}
